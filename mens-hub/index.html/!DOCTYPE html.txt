@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MEN'S HUB - Boys Collection</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #fafafa;
+    }
+
+    header {
+      background: #000;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+    }
+
+    nav {
+      background: #111;
+      padding: 10px;
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    .slider {
+      position: relative;
+      max-width: 100%;
+      height: 320px;
+      overflow: hidden;
+    }
+
+    .slides {
+      display: flex;
+      width: 300%;
+      animation: slide 12s infinite;
+    }
+
+    .slides img {
+      width: 100%;
+      height: 320px;
+      object-fit: cover;
+    }
+
+    @keyframes slide {
+      0%   { margin-left: 0; }
+      33%  { margin-left: -100%; }
+      66%  { margin-left: -200%; }
+      100% { margin-left: 0; }
+    }
+
+    .section {
+      max-width: 1100px;
+      margin: 30px auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .section h2 {
+      margin-top: 0;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      text-align: center;
+      transition: 0.3s;
+    }
+
+    .card:hover {
+      transform: scale(1.03);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    .card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .price {
+      font-size: 18px;
+      font-weight: bold;
+      margin-top: 8px;
+      color: #e63946;
+    }
+
+    .cart-btn {
+      margin-top: 10px;
+      background: #111;
+      color: #fff;
+      padding: 8px 14px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      transition: 0.3s;
+      font-size: 14px;
+    }
+
+    .cart-btn:hover {
+      background: #333;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      border-bottom: 1px solid #eee;
+      font-size: 14px;
+    }
+
+    .cart-item span {
+      margin-right: 10px;
+    }
+
+    .input-row {
+      margin-bottom: 10px;
+    }
+
+    .input-row label {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 14px;
+    }
+
+    .input-row input {
+      width: 100%;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      background: #111;
+      color: white;
+      margin-top: 40px;
+      font-size: 14px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 22px;
+      }
+      .slider {
+        height: 220px;
+      }
+      .slides img {
+        height: 220px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>MEN'S HUB</h1>
+  <p>Boys Collection – Premium Fashion</p>
+</header>
+
+<nav>
+  <a onclick="showSection('home')">Home</a>
+  <a onclick="showSection('products')">Products</a>
+  <a onclick="showSection('cart')">Cart</a>
+  <a onclick="showSection('checkout')">Checkout</a>
+  <a onclick="showSection('contact')">Contact</a>
+</nav>
+
+<!-- HOME + SLIDER SECTION -->
+<div id="home" class="section">
+  <h2>Welcome to MEN'S HUB</h2>
+  <p>Stylish & trendy boys fashion collection at an affordable price.</p>
+
+  <div class="slider">
+    <div class="slides">
+      <img src="https://via.placeholder.com/1200x400?text=MEN%27S+HUB+Fashion+1" alt="Slide 1" />
+      <img src="https://via.placeholder.com/1200x400?text=MEN%27S+HUB+Fashion+2" alt="Slide 2" />
+      <img src="https://via.placeholder.com/1200x400?text=MEN%27S+HUB+Fashion+3" alt="Slide 3" />
+    </div>
+  </div>
+</div>
+
+<!-- PRODUCTS SECTION -->
+<div id="products" class="section hidden">
+  <h2>Our Products</h2>
+  <div class="products" id="productGrid">
+    <!-- JS will render products here -->
+  </div>
+</div>
+
+<!-- CART SECTION -->
+<div id="cart" class="section hidden">
+  <h2>Your Cart</h2>
+  <div id="cartItems"></div>
+  <h3 id="cartTotal">Total: 0 ৳</h3>
+  <button class="cart-btn" onclick="showSection('checkout')">Go to Checkout</button>
+  <button class="cart-btn" style="background:red" onclick="clearCart()">Clear Cart</button>
+</div>
+
+<!-- CHECKOUT SECTION -->
+<div id="checkout" class="section hidden">
+  <h2>Checkout</h2>
+  <p>Fill the form to place your order. (Demo – no real payment)</p>
+
+  <div class="input-row">
+    <label for="custName">Name</label>
+    <input type="text" id="custName" placeholder="Your name" />
+  </div>
+
+  <div class="input-row">
+    <label for="custAddress">Address</label>
+    <input type="text" id="custAddress" placeholder="Your full address" />
+  </div>
+
+  <div class="input-row">
+    <label for="custPhone">Phone</label>
+    <input type="text" id="custPhone" placeholder="Your phone number" />
+  </div>
+
+  <button class="cart-btn" onclick="placeOrder()">Place Order (COD)</button>
+</div>
+
+<!-- CONTACT SECTION -->
+<div id="contact" class="section hidden">
+  <h2>Contact Us</h2>
+  <p>Email: menshub@mail.com</p>
+  <p>Phone: +8801XXXXXXXXX</p>
+  <p>Facebook: fb.com/menshub</p>
+</div>
+
+<footer>
+  © 2025 MEN'S HUB | Boys Collection. All rights reserved.
+</footer>
+
+<script>
+  // -------------------------
+  // Product Data (Demo)
+  // -------------------------
+  const products = [
+    {
+      id: 1,
+      name: "Stylish T-Shirt",
+      price: 800,
+      image: "https://via.placeholder.com/300x200?text=Stylish+T-Shirt"
+    },
+    {
+      id: 2,
+      name: "Winter Jacket",
+      price: 2500,
+      image: "https://via.placeholder.com/300x200?text=Winter+Jacket"
+    },
+    {
+      id: 3,
+      name: "Blue Jeans",
+      price: 1500,
+      image: "https://via.placeholder.com/300x200?text=Blue+Jeans"
+    },
+    {
+      id: 4,
+      name: "Premium Hoodie",
+      price: 1800,
+      image: "https://via.placeholder.com/300x200?text=Premium+Hoodie"
+    },
+    {
+      id: 5,
+      name: "Fashion Cap",
+      price: 500,
+      image: "https://via.placeholder.com/300x200?text=Fashion+Cap"
+    }
+  ];
+
+  // Cart array (single declaration)
+  let cart = [];
+
+  // Load cart from localStorage (if any)
+  function loadCartFromStorage() {
+    const saved = localStorage.getItem('menshub_cart');
+    if (saved) {
+      try {
+        cart = JSON.parse(saved);
+      } catch (e) {
+        console.error('Cart parse error', e);
+        cart = [];
+      }
+    }
+    renderCart();
+  }
+
+  function saveCart() {
+    localStorage.setItem('menshub_cart', JSON.stringify(cart));
+  }
+
+  // Render products in grid
+  function renderProducts() {
+    const grid = document.getElementById('productGrid');
+    grid.innerHTML = '';
+
+    products.forEach(p => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <img src="${p.image}" alt="${p.name}">
+        <h3>${p.name}</h3>
+        <p class="price">${p.price} ৳</p>
+        <button class="cart-btn" onclick="addToCart(${p.id})">Add to Cart</button>
+      `;
+      grid.appendChild(card);
+    });
+  }
+
+  // Add to cart by id
+  function addToCart(id) {
+    const product = products.find(p => p.id === id);
+    if (!product) return;
+
+    // Check if already in cart
+    const existing = cart.find(item => item.id === id);
+    if (existing) {
+      existing.quantity += 1;
+    } else {
+      cart.push({ id: product.id, name: product.name, price: product.price, quantity: 1 });
+    }
+
+    saveCart();
+    renderCart();
+    alert(product.name + " added to cart!");
+  }
+
+  // Render cart
+  function renderCart() {
+    const cartDiv = document.getElementById('cartItems');
+    const totalEl = document.getElementById('cartTotal');
+    cartDiv.innerHTML = '';
+
+    let total = 0;
+
+    if (cart.length === 0) {
+      cartDiv.innerHTML = '<p>Cart is empty.</p>';
+      totalEl.textContent = 'Total: 0 ৳';
+      return;
+    }
+
+    cart.forEach((item, index) => {
+      total += item.price * item.quantity;
+
+      const row = document.createElement('div');
+      row.className = 'cart-item';
+      row.innerHTML = `
+        <span>${item.name}</span>
+        <span>${item.price} ৳ x ${item.quantity}</span>
+        <span>${item.price * item.quantity} ৳</span>
+        <button class="cart-btn" style="padding:4px 8px;font-size:12px;" onclick="changeQty(${index}, 1)">+</button>
+        <button class="cart-btn" style="padding:4px 8px;font-size:12px;" onclick="changeQty(${index}, -1)">-</button>
+        <button class="cart-btn" style="background:red;padding:4px 8px;font-size:12px;" onclick="removeFromCart(${index})">X</button>
+      `;
+      cartDiv.appendChild(row);
+    });
+
+    totalEl.textContent = 'Total: ' + total + ' ৳';
+  }
+
+  function changeQty(index, delta) {
+    cart[index].quantity += delta;
+    if (cart[index].quantity <= 0) {
+      cart.splice(index, 1);
+    }
+    saveCart();
+    renderCart();
+  }
+
+  function removeFromCart(index) {
+    cart.splice(index, 1);
+    saveCart();
+    renderCart();
+  }
+
+  function clearCart() {
+    if (confirm('Clear entire cart?')) {
+      cart = [];
+      saveCart();
+      renderCart();
+    }
+  }
+
+  // Section show/hide
+  function showSection(id) {
+    const ids = ['home', 'products', 'cart', 'checkout', 'contact'];
+    ids.forEach(sec => {
+      document.getElementById(sec).classList.add('hidden');
+    });
+    document.getElementById(id).classList.remove('hidden');
+    window.location.hash = '#' + id;
+
+    if (id === 'cart') {
+      renderCart();
+    }
+  }
+
+  // Fake order place (no backend)
+  function placeOrder() {
+    const name = document.getElementById('custName').value.trim();
+    const addr = document.getElementById('custAddress').value.trim();
+    const phone = document.getElementById('custPhone').value.trim();
+
+    if (!name || !addr || !phone) {
+      alert('Please fill all fields.');
+      return;
+    }
+
+    if (cart.length === 0) {
+      alert('Your cart is empty.');
+      return;
+    }
+
+    alert('Order placed successfully! (Demo, backend not connected yet)');
+    cart = [];
+    saveCart();
+    renderCart();
+    document.getElementById('custName').value = '';
+    document.getElementById('custAddress').value = '';
+    document.getElementById('custPhone').value = '';
+    showSection('home');
+  }
+
+  // Init
+  window.addEventListener('DOMContentLoaded', () => {
+    renderProducts();
+    loadCartFromStorage();
+    showSection('home');
+  });
+</script>
+
+</body>
+</html>

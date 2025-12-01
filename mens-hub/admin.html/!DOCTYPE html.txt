@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel – MEN'S HUB</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #111;
+      color: #fff;
+      padding: 15px;
+      text-align: center;
+      font-size: 24px;
+    }
+    .container {
+      width: 90%;
+      max-width: 900px;
+      margin: 20px auto;
+    }
+    .card {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+    input, button {
+      padding: 10px;
+      margin: 5px 0;
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid #aaa;
+      font-size: 14px;
+    }
+    button {
+      background: #111;
+      color: #fff;
+      cursor: pointer;
+      border: none;
+    }
+    button:hover {
+      background: #333;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: center;
+      font-size: 14px;
+    }
+    th {
+      background: #000;
+      color: #fff;
+    }
+    .img-preview {
+      width: 70px;
+      height: 70px;
+      object-fit: cover;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+
+<header>Admin Panel – MEN'S HUB</header>
+
+<div class="container">
+
+  <div class="card">
+    <h2>Add / Edit Product (Local Only Demo)</h2>
+    <input type="text" id="pname" placeholder="Product Name" />
+    <input type="number" id="pprice" placeholder="Price" />
+    <input type="text" id="pimage" placeholder="Image URL" />
+    <button onclick="saveProduct()">Save Product</button>
+  </div>
+
+  <div class="card">
+    <h2>Products List</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Image</th>
+          <th>Name</th>
+          <th>Price</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="productList"></tbody>
+    </table>
+  </div>
+
+</div>
+
+<script>
+  // Simple in-browser product list (no backend)
+  let products = [];
+  let editIndex = null;
+
+  function renderProducts() {
+    const tbody = document.getElementById('productList');
+    tbody.innerHTML = '';
+
+    products.forEach((p, index) => {
+      tbody.innerHTML += `
+        <tr>
+          <td><img src="${p.image}" class="img-preview" /></td>
+          <td>${p.name}</td>
+          <td>${p.price} ৳</td>
+          <td>
+            <button onclick="startEdit(${index})">Edit</button>
+            <button style="background:red" onclick="deleteProduct(${index})">Delete</button>
+          </td>
+        </tr>
+      `;
+    });
+  }
+
+  function saveProduct() {
+    const name = document.getElementById('pname').value.trim();
+    const price = document.getElementById('pprice').value.trim();
+    const image = document.getElementById('pimage').value.trim();
+
+    if (!name || !price || !image) {
+      alert('Fill all fields');
+      return;
+    }
+
+    if (editIndex === null) {
+      // create
+      products.push({ name, price, image });
+    } else {
+      // update
+      products[editIndex] = { name, price, image };
+      editIndex = null;
+    }
+
+    document.getElementById('pname').value = '';
+    document.getElementById('pprice').value = '';
+    document.getElementById('pimage').value = '';
+
+    renderProducts();
+  }
+
+  function startEdit(index) {
+    const p = products[index];
+    document.getElementById('pname').value = p.name;
+    document.getElementById('pprice').value = p.price;
+    document.getElementById('pimage').value = p.image;
+    editIndex = index;
+  }
+
+  function deleteProduct(index) {
+    if (confirm('Delete this product?')) {
+      products.splice(index, 1);
+      renderProducts();
+    }
+  }
+
+  // Test data
+  products = [
+    { name: 'Demo T-Shirt', price: 800, image: 'https://via.placeholder.com/300x200?text=Demo+T-Shirt' },
+    { name: 'Demo Hoodie', price: 1500, image: 'https://via.placeholder.com/300x200?text=Demo+Hoodie' }
+  ];
+  renderProducts();
+</script>
+
+</body>
+</html>
